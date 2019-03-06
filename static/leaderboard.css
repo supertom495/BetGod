@@ -1,0 +1,12 @@
+table {
+    width:100%;
+    background-color: white;
+    border-collapse: collapse;
+
+}
+
+th {
+    height: 50px;
+    background-color: #2196F3;
+    color: black;
+}

@@ -1,0 +1,7 @@
+<uwsgi>
+    <socket>127.0.0.1:9000</socket>
+        <chdir>/home/www/BetGod</chdir>
+            <module>PostForum.wsgi</module>
+                <processes>4</processes>
+    <daemonize>uwsgi.log</daemonize>
+</uwsgi>

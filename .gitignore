@@ -1,0 +1,9 @@
+dashboard/.DS_Store
+*.pyc
+*.*.pyc
+.idea/
+dashboard/__pycache__/
+Postforum/__pycache__/
+.DS_Store
+0001_initial.py
+0002_auto_20181012_1733.py

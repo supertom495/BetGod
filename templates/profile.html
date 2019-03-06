@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+            "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>My profile</title>
+    </head>
+    <body>
+    <div class="main-container">
+        <div class="two_column_container">
+
+            <div class="two_column_container_left">
+                {% if user %}
+                    <img class="avatar_photo" src="{% static 'test.jpg' %}" alt="avatar_img">
+                    <div class="avatar_username">{{ user.username }}<br></div>
+                    <br>
+                    <div class="box_list_content_container" style="background-color: #ffc107;">
+                        Balance: {{ profile.user_wallet.wallet_points }} BCs
+                    </div>
+                    <ul style="padding: 0; margin: 0;">
+
+                        <a class="box_list_link_container" href="javascript:;" id="add" onclick="myFunction1()">
+                            Add funds</a>
+                        <a class="box_list_link_container" href="javascript:;" id="wit" onclick="myFunction2()">
+                            Withdraw</a>
+
+                        {#                        <a onclick="window.open ('{% url 'homepage' %}');"> OVERWATCH </a>#}
+                    </ul>
+                {% else %}
+                    You have not logged in yet!
+                {% endif %}
+            </div>
+
+            <div class="two_column_container_right">
+                <div class="section_container">
+                    <div class="section_container_title">Personal details</div>
+                    <ul>
+                        <li>Email: {{ user.email }}</li>
+                        <li>Card Type: {{ card.card_type }}</li>
+                        <li>Card Number: {{ card.card_number }}</li>
+                    </ul>
+                </div>
+
+                <div class="section_container">
+                    <div class="section_container_title">Betting history</div>
+                    <ul>
+                        {% if not profile %}
+                            <li>You haven't logged in yet!</li>
+                        {% elif bet %}
+                            {% for b in bet %}
+                                <li>{{ b.bet_event.event_name }} -
+                                    {{ b.bet_event.event_team_a.team_name }}
+                                    vs. {{ b.bet_event.event_team_b.team_name }}
+                                    Date: {{ b.bet_date }}
+                                    Amount: {{ b.bet_amount }}
+                                    Odds: {{ b.bet_odds }}
+                                </li>
+                            {% endfor %}
+
+                        {% else %}
+                            <li>No betting yet! Hurry and bet on your favourite events!</li>
+                        {% endif %}
+                    </ul>
+                </div>
+
+                <div class="style1" id='aaa'>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="text" name="amount">
+                        <input type="submit" name="type" value="add">
+                        <button type="button" onclick="myFunction3()">Cancel</button>
+                    </form>
+                </div>
+
+                <div class="style1" id='bbb'>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="text" name="amount">
+                        <input type="submit" name="type" value="withdraw">
+                        <button type="button" onclick="myFunction4()">Cancel</button>
+
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    </body>
+{% endblock %}
+
+{% block stylesheet %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="../static/demo.js"></script>
+    <script src="../static/layer.js"></script>
+
+{% endblock %}

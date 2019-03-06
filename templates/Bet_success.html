@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+    <title>Bet page</title>
+{#    <link rel="stylesheet" type="text/css" href="{% static 'bet_success.css' %}" />#}
+  </head>
+
+  <body>
+    <div class="bg">
+        <span id="first">Your bet has been</span>
+        <span id="second">successfully processed!</span>
+        <span id="third">Good luck!</span>
+        <span>Now you will be redirected to the home page in</span>
+        <img src="{% static 'smile.png' %}" alt="">
+    </div>
+
+    <div class="redirect">
+      <span id="sec">3 sec!</span>
+        <script>
+        var timer = setTimeout(function() {
+            window.location='profile'
+        }, 3000);
+    </script>
+    </div>
+
+  </body>
+</html>
+{% endblock %}

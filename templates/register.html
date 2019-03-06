@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <!DOCTYPE html>
+    <html>
+    <link rel="stylesheet" type="text/css" href="{% static 'RegisterAndAddFunds.css' %}"/>
+    <head>
+        {#        /<meta name="viewport" content="width=device-width, initial-scale=1">#}
+    </head>
+    <body>
+    {% if registered %}
+        <h1>Thank you for registering!</h1>
+    {% else %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="container">
+                <h1>Join now, it takes less than 2 minutes.</h1>
+                <p></p>
+                <hr>
+
+                <label><b>Username</b></label>
+                <input class="input" type="text" placeholder="Enter username" name="username" required>
+
+                <label><b>Password</b></label>
+                <input class="input" type="password" placeholder="Enter Password" name="psw" required>
+
+                <label><b>Repeat Password</b></label>
+                <input class="input" type="password" placeholder="Repeat Password" name="psw-repeat" required>
+
+                <label><b>Email</b></label>
+                <input class="input" type="text" placeholder="Enter Email" name="email" required>
+
+                <label><b>Security question</b></label>
+                <input class="input" type="text" placeholder="Security question" name="security-question" required>
+
+                <label><b> Security question answer</b></label>
+                <input class="input" type="text" placeholder="Security question answer" name="security-question-answer"
+                       required>
+
+                <label><b>Credit Card Type</b></label><br>
+                <div class="input">
+                    <input style="margin: 0 0 0 0;" type="radio" value="Visa" name="cct"> Visa
+                    <input style="margin: 0 0 0 20px;" type="radio" value="Master" name="cct"> Master<br>
+                </div>
+
+                <label><b>Credit Card Number</b></label>
+                <input class="input" type="text" placeholder="Credit Card Number" name="ccn" required>
+
+                <label><b>Name on Card</b></label>
+                <input class="input" type="text" placeholder="" name="cc_name" required>
+
+                <label><b>Expire date</b></label>
+                <input class="input" type="text" placeholder="eg. 2018-01-01" name="expire_date" required>
+
+                <label><b>CVV</b></label>
+                <input class="input" type="text" placeholder="CVV" name="CVV" required>
+
+                <label><b>Number of points you want to charge</b></label>
+                <input class="input" type="text" placeholder="Points. Put 0 if you don't want to add funds now." name="points" required>
+
+                <p style="color: red">{{ err }}</p>
+
+                <hr>
+                <button type="submit" class="registerbtn">Register</button>
+            </div>
+        </form>
+    {% endif %}
+    </body>
+    </html>
+
+
+{% endblock %}

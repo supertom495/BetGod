@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <!DOCTYPE html>
+    <head>
+        <meta charset="UTF-8">
+        <title>BetGod</title>
+    </head>
+    <body>
+    <div class="main-container">
+    <div class="two_column_container">
+        <div class="two_column_container_left">
+            <ul style="margin: 0">
+                <a class="box_list_link_container" href="{% url 'homepage' %}">Latest</a>
+                <a class="box_list_link_container" id='csgo' href="{% url 'gameList' game='CS-GO' %}">CS-GO</a>
+                <a class="box_list_link_container" id='dota2' href="{% url 'gameList' game='DOTA2' %}">DOTA2</a>
+                <a class="box_list_link_container" id='lol' href="{% url 'gameList' game='LOL' %}">LOL</a>
+                <a class="box_list_link_container" id='overwatch' href="{% url 'gameList' game='OVERWATCH' %}">OVERWATCH</a>
+                <div class="box_list_content_container" style="border: none">&nbsp;</div>
+                <div class="box_list_content_container">&nbsp;</div>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input  class="box_list_content_container" placeholder="Search matches here!" name="keyword" required>
+                    <button class="box_list_link_container" type="submit">Search</button>
+                </form>
+
+                <div class="box_list_content_container" style="border: none">&nbsp;</div>
+                <div class="box_list_content_container">&nbsp;</div>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <select id="game_id" name="game" class="box_list_content_container">
+                        <option value="">---</option>
+                        <option value="CS-GO">CS-GO</option>
+                        <option value="dota2">dota2</option>
+                        <option value="lol">lol</option>
+                        <option value="overwatch">overwatch</option>
+                    </select>
+                    <select id="teams_selection" class="box_list_content_container" name="keyword" required>
+                        <option value="">---</option>
+                    </select>
+                    <button class="box_list_link_container" type="submit">Search</button>
+                </form>
+                <div class="box_list_content_container" style="border: none">&nbsp;</div>
+                <div class="box_list_content_container" style="border: none">&nbsp;</div>
+            </ul>
+        </div>
+
+
+        <div class="two_column_container_right">
+            <ul style="list-style: none; padding: 0; margin: 0">
+                {% for event in events %}
+                    <li><a href="{% url 'betPage' event_id=event.event_id %}" style="text-decoration: none">
+                        <div class="eventHolder">
+                            <div class="left_team">
+                                {{ event.event_team_a.team_name }}&nbsp&nbsp
+                                {% with "TeamLogo/"|add:event.event_team_a.team_name|add:".png" as template %}
+                                    <img class="imageHolder" src="{% static template %}">
+                                {% endwith %}
+                            </div>
+                            <div class="vs">&nbsp vs &nbsp</div>
+                            <div class="right_team">
+                                {% with "TeamLogo/"|add:event.event_team_b.team_name|add:".png" as template %}
+                                    <img class="imageHolder" src="{% static template %}">
+                                {% endwith %}
+                                &nbsp&nbsp{{ event.event_team_b.team_name }}
+                            </div>
+                            <div class="left_odds">{{ event.event_odds_a }}</div>
+                            <div class="vs">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</div>
+                            <div class="right_odds">{{ event.event_odds_b }}</div>
+                        </div>
+                    </a></li>
+
+                {% endfor %}
+            </ul>
+
+                {% if events.has_other_pages %}
+                    <ul class="pagination">
+                        {% if events.has_previous %}
+                            <li><a href="?page={{ events.previous_page_number }}">&laquo;</a></li>
+                        {% else %}
+                            <li class="disabled"><span>&laquo;</span></li>
+                        {% endif %}
+                        {% for i in events.paginator.page_range %}
+                            {% if events.number == i %}
+                                <li class="active"><span>{{ i }} <span class="sr-only"></span></span></li>
+                            {% else %}
+                                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if events.has_next %}
+                            <li><a href="?page={{ events.next_page_number }}">&raquo;</a></li>
+                        {% else %}
+                            <li class="disabled"><span>&raquo;</span></li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+        </div>
+    </div>
+    </div>
+
+
+    </body>
+    </html>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        var url=window.location.href;
+        if (url.search("CS-GO") > 0) {
+            document.getElementById("csgo").style.backgroundColor = "orange";
+        }
+        if (url.search("DOTA2") > 0) {
+            document.getElementById("dota2").style.backgroundColor = "orange";
+        }
+        if (url.search("LOL") > 0) {
+            document.getElementById("lol").style.backgroundColor = "orange";
+        }
+        if (url.search("OVERWATCH") > 0) {
+            document.getElementById("overwatch").style.backgroundColor = "orange";
+        }
+        $("#game_id").change(function() {
+          var game = $(this).val();
+
+          $.ajax({
+            url: '/ajax/team/',
+            data: {
+              'game': game
+            },
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var content='';
+                $.each(data, function(i, item){
+                      content+='<option value='+item.team_name+'>'+item.team_name+'</option>'
+                    });
+                $('#teams_selection').html(content)
+            },
+          });
+        });
+      </script>
+{% endblock %}

@@ -1,0 +1,39 @@
+
+.message {
+  font-size: 60px;
+  position: fixed;
+  top: 40%;
+  left: 33%;
+}
+
+#second {
+  position: fixed;
+  left: 33%;
+  top: 50%;
+}
+
+#third {
+  position:fixed;
+  top: 60%;
+  left: 33%;
+}
+
+img {
+  width: 80px;
+  position: fixed;
+  top: 60%;
+  left: 50%;
+}
+
+.redirect {
+  font-size: 30px;
+  position:fixed;
+  top: 80%;
+  left: 33%;
+}
+
+#sec {
+  position: fixed;
+  top: 85%;
+  left: 33%;
+}

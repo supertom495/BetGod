@@ -1,0 +1,31 @@
+
+.bet {
+    font-size: 100px;
+}
+
+.bet_button {
+
+}
+
+#vs {
+    margin: 0 0 150px 0;
+    color: red;
+}
+
+#button1 {
+  font-size: 30px;
+    width: 40%;
+}
+
+#button2 {
+  font-size: 30px;
+    width: 40%;
+}
+
+.odds {
+  font-size: 50px;
+    text-align: center;
+}
+
+#A {
+}

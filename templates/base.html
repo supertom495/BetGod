@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    </head>
+    <link rel="stylesheet" type="text/css" href="{% static 'navbar.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}" />
+    <meta charset="UTF-8">
+    <title> {% block title %}{% endblock %} </title>
+
+        <ul class="nList">
+            <li>
+                <a class="logo" href="{% url 'homepage' %}">BetGod</a>
+            </li>
+            {% if user.is_authenticated %}
+                <li class="item" style="float:right">
+                    <a href="{% url 'logout' %}">Logout</a>
+                </li>
+                <li class="item" style="float:right">
+                    <a href="{% url 'profile' %}">View Profile</a>
+                </li>
+                <li class="item" style="float:right;padding:30px 15px">
+                    <b>Welcome {{ user }}!</b>
+                </li>
+
+            {% else %}
+                <li class="item" style="float:right;">
+                    <a href="{% url 'register' %}">Join now!</a>
+                </li>
+                <li class="item" style="float:right;padding:30px 15px">
+                <form action="{% url 'login' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    Username:
+                    <input type="text" name="username" placeholder="Enter username" required>
+                    Password:
+                    <input type="password" name="password" placeholder="Enter password" required>
+                    <button type="submit">Login</button>
+                </form>
+                </li>
+            {% endif %}
+        </ul>
+
+
+
+{% block content %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block modal %}
+{% endblock %}
+</html>

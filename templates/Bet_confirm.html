@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <title>Bet page</title>
+    <script type="text/javascript" src="{% static 'Bet_confirm.js' %}"></script>
+  </head>
+
+  <body>
+  <div class="bg">
+    <div class="bet">
+        {% with "TeamLogo/"|add:team.team_name|add:".png" as template %}
+        <img id="amazon" height="300px" width="300px" src="{% static template %}" alt="">
+        {% endwith %}
+    </div>
+    <form method="post">
+    {% csrf_token %}
+    <div class="input_points">
+
+      <label id="points" for="">Points:</label>
+      <input type="number" step='1' id="point" name="point" max="{{ wallet.wallet_points }}" min="0" placeholder="Number of points">
+      <span id="balance">(current balance: {{ wallet.wallet_points }})</span>
+
+    </div>
+
+    {% if team.team_name == event.event_team_a.team_name %}
+        <div class="points_get">
+            <input type="hidden" id="a" name="odds" value="{{ event.event_odds_a }}">
+         <button type="button" name="button" onclick="calculate(document.getElementById('point').value,document.getElementById('a').value)">Calculate the points you'll get (odds:<span>{{ event.event_odds_a }}</span>)</button>
+        </div>
+    {% else %}
+        <div class="points_get">
+            <input type="hidden" id="b" name="odds" value="{{ event.event_odds_b }}">
+         <button type="button" name="button" onclick="calculate(document.getElementById('point').value,document.getElementById('b').value)">Calculate the points you'll get (odds:<span>{{ event.event_odds_b }}</span>)</button>
+        </div>
+    {% endif %}
+
+    <div class="confirm">
+        <button type="submit" name="button">Confirm</button>
+    </div>
+    <div class="buy_points">
+      <a href="{% url "profile" %}">Don't have enough points?Buy points!</a>
+    </div>
+
+    </form>
+  </div>
+  </body>
+</html>
+{% endblock %}
